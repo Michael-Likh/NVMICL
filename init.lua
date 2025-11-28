@@ -24,6 +24,8 @@ require("core.autocommands")
 -- UI
 require("ui.colors")
 require("ui.statusline")
+require("ui.empty")
+
 
 -- LSP
 require("lsp.lspconfig")

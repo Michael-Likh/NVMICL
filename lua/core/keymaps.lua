@@ -1,8 +1,12 @@
+-- lua/core/keymaps.lua
+local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
--- =========================
--- Plugins setup
--- =========================
+-- Mini.comment
+local comment = require("mini.comment")
+comment.setup({
+    options = { ignore_blank_line = true, start_of_line = false }
+})
 
 -- Marks.nvim
 require("marks").setup({
@@ -10,73 +14,32 @@ require("marks").setup({
     excluded_filetypes = { "harpoon" },
 })
 
--- Mini.comment
-require("mini.comment").setup({
-    options = {
-        ignore_blank_line = true,
-        start_of_line = false,
-    }
-})
+-- Normal mode navigation & actions with Alt as leader
+map("n", "<M-f>", ":Telescope find_files<CR>", opts)
+map("n", "<M-g>", ":Telescope live_grep<CR>", opts)
+map("n", "<M-h>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
+map("n", "<M-a>", ":lua require('harpoon.mark').add_file()<CR>", opts)
+map("n", "<M-j>", ":lua require('flash').jump()<CR>", opts)
+map("n", "<M-m>", ":lua require('marks').toggle()<CR>", opts)
+
+-- Toggle comment
+map("n", "<M-/>", "<cmd>lua require('mini.comment').toggle()<CR>", opts)
+map("x", "<M-/>", "<cmd>lua require('mini.comment').toggle()<CR>", opts)
+
+-- Copy/paste with system clipboard
+map("v", "<C-c>", '"+y', opts)
+map("n", "<C-v>", '"+p', opts)
+map("i", "<C-v>", '<C-r>+', opts)
 
 -- ToggleTerm
 require("toggleterm").setup({
     size = 10,
-    open_mapping = "<M-t>",       -- Alt-t opens terminal
+    open_mapping = [[<M-t>]],
     direction = "horizontal",
     start_in_insert = true,
 })
 
--- =========================
--- Navigation / Search
--- =========================
-
--- Telescope
-vim.keymap.set("n", "<M-f>", function() vim.cmd("Telescope find_files") end, opts)
-vim.keymap.set("n", "<M-g>", function() vim.cmd("Telescope live_grep") end, opts)
-
--- Harpoon
-vim.keymap.set("n", "<M-h>", function()
-    require("harpoon.ui").toggle_quick_menu()
-end, opts)
-
-vim.keymap.set("n", "<M-a>", function()
-    require("harpoon.mark").add_file()
-end, opts)
-
--- Flash
-vim.keymap.set("n", "<M-j>", function()
-    require("flash").jump()
-end, opts)
-
--- Marks toggle
-vim.keymap.set("n", "<M-m>", function()
-    require("marks").toggle()
-end, opts)
-
--- =========================
--- Mini.comment mappings
--- =========================
-
--- Normal mode: toggle current line
-vim.keymap.set("n", "<M-/>", function()
-    require("mini.comment").toggle()
-end, opts)
-
--- Visual mode: toggle selected lines
-vim.keymap.set("x", "<M-/>", function()
-    require("mini.comment").toggle()
-end, opts)
-
--- =========================
--- Copy/paste (Wayland)
--- =========================
-vim.keymap.set("v", "<C-c>", '"+y', opts)
-vim.keymap.set("n", "<C-v>", '"+p', opts)
-vim.keymap.set("i", "<C-v>", '<C-r>+', opts)
-
--- =========================
--- ; as :
--- =========================
-vim.keymap.set("n", ";", ":", opts)
-vim.keymap.set("v", ";", ":", opts)
+-- Command-mode ; shortcut
+map("n", ";", ":", opts)
+map("v", ";", ":", opts)
 
