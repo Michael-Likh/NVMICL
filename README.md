@@ -12,7 +12,7 @@ Designed with ease of use and simplicity in mind.
 { "theprimeagen/harpoon" }
 { "chentoast/marks.nvim" }
 { "folke/flash.nvim" }
-{"nvim-telescope/telescope.nvim" }
+{ "nvim-telescope/telescope.nvim" }
 { "nvim-treesitter/nvim-treesitter" }
 { "echasnovski/mini.nvim" }
 { "windwp/nvim-autopairs" }
